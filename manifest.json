@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Perfect Privacy Checker",
+  "version": "1.0",
+  "description": "Checks if covered with Perfect Privacy VPN",
+  "homepage_url": "https://github.com/FrancisMurillo/perfect-privacy-checker/tree/master/perfect-privacy",
+  "permissions": [
+      "runtime.onMessage",
+      "runtime.sendMessage",
+      "tabs",
+      "webRequest",
+      "webRequestBlocking",
+      "https://checkip.perfect-privacy.com/*"
+  ],
+  "icons": {
+    "32": "icons/perfect-privacy-32.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "icons/perfect-privacy-32.png",
+    "default_title": "Connected to Perfect Privacy",
+    "default_popup": "popup/index.html"
+  }
+}
