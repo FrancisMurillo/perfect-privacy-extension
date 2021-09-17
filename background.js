@@ -14,7 +14,7 @@ function updatePort() {
 }
 
 function updateStatus() {
-    if (info) {
+    if (info && info.VPN) {
         browser.browserAction.setTitle({ title: "Connected to Perfect Privacy" })
         browser.browserAction.setIcon({ path: { 32: "icons/perfect-privacy-32.png" } });
     } else {
