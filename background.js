@@ -1,4 +1,6 @@
 var info = null;
+var isPending = false;
+var lastTime = 0;
 var port = null;
 
 function connected(p) {
@@ -23,23 +25,43 @@ function updateStatus() {
     }
 }
 
-
 function checkIp(_tabs) {
-    var xhr = new XMLHttpRequest();
+    if (!isPending) {
+        var now = new Date();
 
-    xhr.open("GET", "https://checkip.perfect-privacy.com/json", false);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() { // Call a function when the state changes.
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            info = JSON.parse(this.responseText);
+        if (now - lastTime >= 30000) {
+            lastTime = now;
         } else {
-            info = null;
+            return;
         }
 
-        updateStatus();
-    }
+        isPending = true;
 
-    var res = xhr.send(null);
+        try {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "https://checkip.perfect-privacy.com/json", false);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                isPending = false;
+
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    info = JSON.parse(this.responseText);
+                } else {
+                    info = null;
+                }
+
+                updateStatus();
+            }
+
+            xhr.send(null);
+        } catch (ex) {
+            isPending = false;
+            info = null;
+
+            updateStatus();
+        }
+    }
 }
 
 browser.tabs.onUpdated.addListener(checkIp);
@@ -47,4 +69,4 @@ browser.tabs.onActivated.addListener(checkIp);
 browser.windows.onFocusChanged.addListener(checkIp);
 browser.runtime.onConnect.addListener(connected);
 
-checkIp(null);
+check(null);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Perfect Privacy Checker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Checks if covered with Perfect Privacy VPN",
   "homepage_url": "https://github.com/FrancisMurillo/perfect-privacy-checker/tree/master/perfect-privacy",
   "permissions": [
