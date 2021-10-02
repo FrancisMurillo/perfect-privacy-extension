@@ -1,4 +1,4 @@
-var port = browser.runtime.connect({name: "background"});
+var port = browser.runtime.connect({name: "popup-port"});
 
 port.onMessage.addListener(function(info) {
     info = info || {}

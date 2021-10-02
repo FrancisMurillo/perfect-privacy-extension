@@ -15,17 +15,19 @@ function updatePort() {
     }
 }
 
+browser.runtime.onConnect.addListener(connected);
+
 function updateStatus() {
     if (info && info.VPN) {
         browser.browserAction.setTitle({ title: "Connected to Perfect Privacy" })
-        browser.browserAction.setIcon({ path: { 32: "icons/perfect-privacy-32.png" } });
+        browser.browserAction.setIcon({ path: { 64: "icons/perfect-privacy-64.png" } });
     } else {
-        browser.browserAction.setIcon({ path: { 32: "icons/perfect-privacy-32-inactive.png" } });
+        browser.browserAction.setIcon({ path: { 64: "icons/perfect-privacy-64-inactive.png" } });
         browser.browserAction.setTitle({ title: "Not Connected to Perfect Privacy" })
     }
 }
 
-function checkIp(_tabs) {
+function checkStatus() {
     if (!isPending) {
         var now = new Date();
 
@@ -64,9 +66,8 @@ function checkIp(_tabs) {
     }
 }
 
-browser.tabs.onUpdated.addListener(checkIp);
-browser.tabs.onActivated.addListener(checkIp);
-browser.windows.onFocusChanged.addListener(checkIp);
-browser.runtime.onConnect.addListener(connected);
+browser.tabs.onUpdated.addListener(checkStatus);
+browser.tabs.onActivated.addListener(checkStatus);
+browser.windows.onFocusChanged.addListener(checkStatus);
 
-check(null);
+checkStatus(null);
